@@ -24,13 +24,9 @@ window.setTimeout(() => {
 }, s.delayToLoadBackgroundColor)
 
 const script = (p) => {
-    let card
+    let card, card2
 
-    function createCard() {
-        const opts = {}
-
-        opts.palette = s.palette
-
+    function createCard(opts) {
         return new Back(p, opts)
     }
 
@@ -40,12 +36,26 @@ const script = (p) => {
 
         p.background(s.color)
 
-        card = createCard()
+        card = createCard({
+			palette: s.palette
+		})
         card.displayBase(p)
         card.displayBack(p)
         card.displayBorder(p)
         card.displayShape(p)
+
+		// card2 = createCard({
+		// 	position: {
+		// 		x: 0,
+		// 		y: 0
+		// 	},
+		// 	palette: s.palette
+		// })
+        // card2.displayBase(p)
+        // card2.displayBack(p)
+        // card2.displayBorder(p)
+        // card2.displayShape(p)
     }
-} 
+}
 
 new p5(script)
