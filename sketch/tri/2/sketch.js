@@ -1,7 +1,7 @@
 import palettes from 'nice-color-palettes'
 
 import { pick } from '/assets/scripts/utils.js'
-import { Back } from '/assets/scripts/cards.js'
+import { CardBack } from '/assets/scripts/CardBack.js'
 
 const s = {
     delayToLoadBackgroundColor: 50,
@@ -27,7 +27,7 @@ const script = (p) => {
     let card, card2
 
     function createCard(opts) {
-        return new Back(p, opts)
+        return new CardBack(p, opts)
     }
 
 	p.setup = () => {
