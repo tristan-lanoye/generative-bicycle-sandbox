@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "nice-color-palettes": "^3.0.0",
+    "paper-colors": "^1.0.0",
     "plop": "^2.5.3"
   }
 }

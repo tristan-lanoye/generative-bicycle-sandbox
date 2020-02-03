@@ -1,7 +1,7 @@
 import palettes from 'nice-color-palettes'
 
 import { pick } from '/assets/scripts/utils.js'
-import { CardBack } from '/assets/scripts/CardBack.js'
+import { CardBack, CardBack2 } from '/assets/scripts/CardBack.js'
 
 const s = {
     delayToLoadBackgroundColor: 50,
@@ -10,7 +10,7 @@ const s = {
         sides: 100
     },
     sketch: {
-        width: 750,
+        width: window.innerHeight,
         height: window.innerHeight
     }
 }
@@ -26,8 +26,11 @@ window.setTimeout(() => {
 const script = (p) => {
     let card, card2
 
-    function createCard(opts) {
-        return new CardBack(p, opts)
+    function createCard(opts = {}) {
+		if(!opts.hasOwnProperty('palette')) opts.palette = s.palette
+		let type = opts.hasOwnProperty('type') ? opts.type : CardBack
+
+        return new type(p, opts)
     }
 
 	p.setup = () => {
@@ -36,20 +39,18 @@ const script = (p) => {
 
         p.background(s.color)
 
-        card = createCard({
-			palette: s.palette
-		})
+        card = createCard()
         card.displayBase(p)
         card.displayBack(p)
         card.displayBorder(p)
         card.displayShape(p)
 
 		// card2 = createCard({
+		// 	type: CardBack2,
 		// 	position: {
 		// 		x: 0,
 		// 		y: 0
-		// 	},
-		// 	palette: s.palette
+		// 	}
 		// })
         // card2.displayBase(p)
         // card2.displayBack(p)

@@ -1,7 +1,7 @@
 import paperColors from 'paper-colors'
 
 import { pick } from '/assets/scripts/utils.js'
-import { CardBack, CardBackFold } from '/assets/scripts/CardBack.js'
+import { CardBack, CardBackFold5 } from '/assets/scripts/CardBack.js'
 
 const settings = {
 	card: {
@@ -56,7 +56,7 @@ const script = (p) => {
         p.background(settings.color.background)
 
         card = createCard({
-			type: CardBackFold
+			type: CardBackFold5
 		})
         card.displayBase()
         card.displayBack()
