@@ -29,7 +29,7 @@ export default class Card {
 			y1: this.card.position.y,
 			y2: this.card.position.y + this.card.size.height
 		}
-		this.card.margin = typeof opts.card.margin !== 'undefined' ? opts.card.margin : 10
+		this.card.margin = typeof opts.card.margin !== 'undefined' ? opts.card.margin : 14
 		this.card.borderRadius = typeof opts.card.borderRadius !== 'undefined' ? opts.card.borderRadius : 5
 
 		/*
@@ -88,7 +88,6 @@ export default class Card {
 		this.p.rect(this.card.position.x, this.card.position.y, this.card.size.width, this.card.size.height, this.card.borderRadius)
 	}
 
-	//hide overflowing stuff
 	displayWalls() {
 		this.p.noStroke()
 		this.p.fill(this.canvas.color)
@@ -100,6 +99,7 @@ export default class Card {
 	}
 
     displayBorder() {
+		//inner
 		this.p.strokeWeight(3)
         this.p.stroke(255)
         this.p.noFill()
@@ -108,12 +108,79 @@ export default class Card {
 		this.p.strokeWeight(5)
         this.p.stroke(255)
         this.p.noFill()
-        this.p.rect(this.inner.position.x - 2, this.inner.position.y - 2, this.inner.size.width + 4, this.inner.size.height + 4, this.card.borderRadius)
+		this.p.rect(this.inner.position.x - 2, this.inner.position.y - 2, this.inner.size.width + 4, this.inner.size.height + 4, this.card.borderRadius)
+
+		this.p.strokeWeight(5)
+        this.p.stroke(255)
+        this.p.noFill()
+		this.p.rect(this.inner.position.x - 6, this.inner.position.y - 6, this.inner.size.width + 12, this.inner.size.height + 12, this.card.borderRadius)
+
+		this.p.strokeWeight(15)
+        this.p.stroke(this.canvas.color)
+        this.p.noFill()
+		this.p.rect(this.card.position.x - 7, this.card.position.y - 7, this.card.size.width + 14, this.card.size.height + 14, this.card.borderRadius * 2.685)
 	}
 
 	displayBack() {
         this.p.noStroke()
         this.p.fill(this.inner.color)
         this.p.rect(this.inner.position.x, this.inner.position.y, this.inner.size.width, this.inner.size.height)
-    }
+	}
+
+	getSinusoidal(v, amount) {
+		return this.p.createVector(amount * Math.sin(v.x), amount * Math.sin(v.y))
+	}
+
+	getHyperbolic(v, amount) {
+		let r = v.mag() + 1.0e-10
+		let theta = this.p.atan2(v.x, v.y)
+		let x = amount * Math.sin(theta) / r
+		let y = amount * Math.cos(theta) * r
+		return this.p.createVector(x, y)
+	}
+
+	getSwirl(v, amount) {
+		let r = v.mag() + 1.0e-10
+		let x = amount * (v.x * Math.sin(r * r) - v.y * Math.cos(r * r))
+		let y = amount * (v.x * Math.cos(r * r) - v.y * Math.sin(r * r))
+		return this.p.createVector(x, y)
+	}
+
+	getSpherical(v, amount) {
+		let r = v.mag() + 1.0e-10
+		let x = amount * v.x * (1 / (r * r))
+		let y = amount * v.y * (1 / (r * r))
+		return this.p.createVector(x, y)
+	}
+
+	getHorseshoe(v, amount) {
+		let r = v.mag() + 1.0e-10
+		let x = amount * (1 / r * ((v.x - v.y) * (v.x + v.y)))
+		let y = amount * (1 / r * (2 * v.x * v.y))
+		return this.p.createVector(x, y)
+	}
+
+	getPolar(v, amount) {
+		let r = v.mag() + 1.0e-10
+		let angle = this.p.atan2(v.x, v.y)
+		let x = amount * (angle / Math.PI)
+		let y = amount * (r - 1)
+		return this.p.createVector(x, y)
+	}
+
+	getHandkerchief(v, amount) {
+		let r = v.mag() + 1.0e-10
+		let angle = this.p.atan2(v.x, v.y)
+		let x = amount * (angle / Math.PI)
+		let y = amount * (r - 1)
+		return this.p.createVector(x, y)
+	}
+
+	getHeart(v, amount) {
+		let r = v.mag() + 1.0e-10
+		let angle = this.p.atan2(v.x, v.y)
+		let x = amount * r * (Math.sin(angle * r))
+		let y = amount * r * (-Math.cos(angle * r))
+		return this.p.createVector(x, y)
+	}
 }
