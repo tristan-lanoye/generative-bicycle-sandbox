@@ -1,7 +1,7 @@
 import paperColors from 'paper-colors'
 
 import { pick } from '/assets/scripts/utils.js'
-import { CardBack, CardBackGlobal } from '/assets/scripts/CardBack.js'
+import { CardBackGlobal } from '/assets/scripts/CardBack.js'
 
 const settings = {
 	card: {

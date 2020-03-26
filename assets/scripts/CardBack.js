@@ -1,10 +1,7 @@
 import Card from './Card.js'
-import { pick, map, randomRange } from './utils.js'
+import { pick, map, randomRange, hexToRgb } from './utils.js'
 
-// Class for card backs that extend 'Base' Card Class
-// Create new classes when you want to test new things
 
-// Card Back 1 : Template
 export class CardBack extends Card {
     constructor(p, opts) {
         super(p, opts)
@@ -47,7 +44,6 @@ export class CardBack extends Card {
     }
 }
 
-// Card Back 2
 export class CardBackFold extends Card {
     constructor(p, opts) {
 		super(p, opts)
@@ -79,11 +75,11 @@ export class CardBackFold extends Card {
 
 			switch(which) {
 				case 0:
-					v = this.getHyperbolic(v, amount)
+					v = this.getHyperbolic(this.p, v, amount)
 				case 1:
-					v = this.getSinusoidal(v, amount)
+					v = this.getSinusoidal(this.p, v, amount)
 				default:
-					v = this.getSinusoidal(v, amount)
+					v = this.getSinusoidal(this.p, v, amount)
 			}
 		}
 
@@ -154,11 +150,11 @@ export class CardBackFold2 extends Card {
 
 			switch(which) {
 				case 0:
-					v = this.getSinusoidal(v, this.amount)
+					v = this.getSinusoidal(this.p, v, this.amount)
 				case 1:
-					v = this.getSinusoidal(v, this.amount)
+					v = this.getSinusoidal(this.p, v, this.amount)
 				default:
-					v = this.getSinusoidal(v, this.amount)
+					v = this.getSinusoidal(this.p, v, this.amount)
 			}
 		}
 
@@ -223,7 +219,7 @@ export class CardBackFold3 extends Card {
 
 	repeatFoldLinearly(v, amount, max) {
 		for(let i = 0; i < max; i++) {
-			v = this.getHyperbolic(v, amount)
+			v = this.getHyperbolic(this.p, v, amount)
 		}
 
 		return v
@@ -288,7 +284,7 @@ export class CardBackFold4 extends Card {
 
 	repeatFoldLinearly(v, amount, max) {
 		for(let i = 0; i < max; i++) {
-			v = this.getSinusoidal(v, amount)
+			v = this.getSinusoidal(this.p, this.p, v, amount)
 		}
 
 		return v
@@ -301,8 +297,8 @@ export class CardBackFold4 extends Card {
 		//max:2, max:10
 		v = this.repeatFoldLinearly(v, amount, this.maxIteration)
 
-		const xx = map(this.p.randomGaussian(v.x, 0.009), this.x1, this.x2, this.inner.limit.x1, this.inner.limit.x2)
-		const yy = map(this.p.randomGaussian(v.y, 0.009), this.y1, this.y2, this.inner.limit.y1, this.inner.limit.y2)
+		const xx = map(this.p.randomGaussian(v.x, 0.0001), this.x1, this.x2, this.inner.limit.x1, this.inner.limit.x2)
+		const yy = map(this.p.randomGaussian(v.y, 0.0001), this.y1, this.y2, this.inner.limit.y1, this.inner.limit.y2)
 
 		this.resetStyle()
 		this.p.rect(xx - 5.5, yy - 5.5, 11, 11)
@@ -353,7 +349,7 @@ export class CardBackFold5 extends Card {
 
 	repeatFoldLinearly(v, amount, max) {
 		for(let i = 0; i < max; i++) {
-			v = this.getSwirl(v, amount)
+			v = this.getSwirl(this.p, v, amount)
 		}
 
 		return v
@@ -419,27 +415,27 @@ export class CardBackFold6 extends Card {
 	drawVariation(x, y) {
 		let v = this.p.createVector(x, y)
 
-		v = this.getSinusoidal(v, 1)
-		v = this.getSinusoidal(v, 1)
-		v = this.getSinusoidal(v, 1)
-		v = this.getSwirl(v, 1)
-		v = this.getSwirl(v, 1)
-		v = this.getSwirl(v, 4)
-		v = this.getSwirl(v, 1)
-		v = this.getSwirl(v, 0.5)
-		v = this.getSwirl(v, 1.8)
-		v = this.getSwirl(v, 1)
+		v = this.getSinusoidal(this.p, v, 1)
+		v = this.getSinusoidal(this.p, v, 1)
+		v = this.getSinusoidal(this.p, v, 1)
+		v = this.getSwirl(this.p, v, 1)
+		v = this.getSwirl(this.p, v, 1)
+		v = this.getSwirl(this.p, v, 4)
+		v = this.getSwirl(this.p, v, 1)
+		v = this.getSwirl(this.p, v, 0.5)
+		v = this.getSwirl(this.p, v, 1.8)
+		v = this.getSwirl(this.p, v, 1)
 		//comment this, it is good too
-		v = this.getHyperbolic(v, 1)
-		v = this.getHyperbolic(v, 1)
-		v = this.getHyperbolic(v, 3)
-		v = this.getHyperbolic(v, 3)
-		v = this.getHyperbolic(v, 1.5)
-		v = this.getHyperbolic(v, 1.8)
+		v = this.getHyperbolic(this.p, v, 1)
+		v = this.getHyperbolic(this.p, v, 1)
+		v = this.getHyperbolic(this.p, v, 3)
+		v = this.getHyperbolic(this.p, v, 3)
+		v = this.getHyperbolic(this.p, v, 1.5)
+		v = this.getHyperbolic(this.p, v, 1.8)
 
-		// v = this.getHyperbolic(v, 1)
-		// v = this.getSwirl(v, 2)
-		// v = this.getSwirl(v, 3)
+		// v = this.getHyperbolic(this.p, v, 1)
+		// v = this.getSwirl(this.p, v, 2)
+		// v = this.getSwirl(this.p, v, 3)
 
 		const xx = map(this.p.randomGaussian(v.x, 0.009), this.x1, this.x2, this.inner.limit.x1, this.inner.limit.x2)
 		const yy = map(this.p.randomGaussian(v.y, 0.009), this.y1, this.y2, this.inner.limit.y1, this.inner.limit.y2)
@@ -550,56 +546,56 @@ export class CardBackFoldTest extends Card {
 	drawVariation(x, y) {
 		let v = this.p.createVector(x, y)
 
-		// v = this.getSpherical(v, 1)
-		// v = this.getSwirl(v, 1)
-		// v = this.getSwirl(v, 1)
-		// v = this.getSpherical(v, 1)
+		// v = this.getSpherical(this.p, v, 1)
+		// v = this.getSwirl(this.p, v, 1)
+		// v = this.getSwirl(this.p, v, 1)
+		// v = this.getSpherical(this.p, v, 1)
 
-		v = this.getHorseshoe(v, 1)
-		v = this.getHorseshoe(v, 1)
-		v = this.getHorseshoe(v, 1)
-		v = this.getHorseshoe(v, 1)
-		v = this.getHorseshoe(v, 1)
-		v = this.getHyperbolic(v, 1)
-		v = this.getHyperbolic(v, 1)
-		v = this.getHyperbolic(v, 1)
-		v = this.getHyperbolic(v, 1)
-		v = this.getHyperbolic(v, 1)
-		v = this.getHyperbolic(v, 1)
-		v = this.getHyperbolic(v, 1)
-		v = this.getHyperbolic(v, 1)
-		v = this.getPolar(v, 1)
-		v = this.getPolar(v, 1)
-		v = this.getPolar(v, 1)
-		v = this.getPolar(v, 1)
-		v = this.getSwirl(v, 1)
-		v = this.getSwirl(v, 2)
-		v = this.getSwirl(v, 1)
-		v = this.getSwirl(v, 1)
-		v = this.getSwirl(v, 1)
-		v = this.getHorseshoe(v, 1)
+		v = this.getHorseshoe(this.p, v, 1)
+		v = this.getHorseshoe(this.p, v, 1)
+		v = this.getHorseshoe(this.p, v, 1)
+		v = this.getHorseshoe(this.p, v, 1)
+		v = this.getHorseshoe(this.p, v, 1)
+		v = this.getHyperbolic(this.p, v, 1)
+		v = this.getHyperbolic(this.p, v, 1)
+		v = this.getHyperbolic(this.p, v, 1)
+		v = this.getHyperbolic(this.p, v, 1)
+		v = this.getHyperbolic(this.p, v, 1)
+		v = this.getHyperbolic(this.p, v, 1)
+		v = this.getHyperbolic(this.p, v, 1)
+		v = this.getHyperbolic(this.p, v, 1)
+		v = this.getPolar(this.p, v, 1)
+		v = this.getPolar(this.p, v, 1)
+		v = this.getPolar(this.p, v, 1)
+		v = this.getPolar(this.p, v, 1)
+		v = this.getSwirl(this.p, v, 1)
+		v = this.getSwirl(this.p, v, 2)
+		v = this.getSwirl(this.p, v, 1)
+		v = this.getSwirl(this.p, v, 1)
+		v = this.getSwirl(this.p, v, 1)
+		v = this.getHorseshoe(this.p, v, 1)
 
-		// v = this.getHeart(v, 4)
-		// v = this.getSinusoidal(v, 2)
-		// v = this.getSwirl(v, 1)
-		// v = this.getSwirl(v, 1)
-		// v = this.getSwirl(v, 1)
-		// v = this.getHeart(v, 1)
-		// v = this.getHeart(v, 1)
-		// v = this.getHeart(v, 1)
-		// v = this.getHeart(v, 1)
-		// v = this.getHandkerchief(v, 1)
-		// v = this.getHandkerchief(v, 1)
-		// v = this.getHandkerchief(v, 1)
-		// v = this.getHandkerchief(v, 1)
-		// v = this.getSpherical(v, 1)
-		// v = this.getSpherical(v, 1)
-		// v = this.getSpherical(v, 1)
-		// v = this.getHeart(v, 1)
-		// v = this.getHeart(v, 1)
-		// v = this.getHeart(v, 1)
-		// v = this.getHyperbolic(v, 1)
-		// v = this.getHyperbolic(v, 1)
+		// v = this.getHeart(this.p, v, 4)
+		// v = this.getSinusoidal(this.p, v, 2)
+		// v = this.getSwirl(this.p, v, 1)
+		// v = this.getSwirl(this.p, v, 1)
+		// v = this.getSwirl(this.p, v, 1)
+		// v = this.getHeart(this.p, v, 1)
+		// v = this.getHeart(this.p, v, 1)
+		// v = this.getHeart(this.p, v, 1)
+		// v = this.getHeart(this.p, v, 1)
+		// v = this.getHandkerchief(this.p, v, 1)
+		// v = this.getHandkerchief(this.p, v, 1)
+		// v = this.getHandkerchief(this.p, v, 1)
+		// v = this.getHandkerchief(this.p, v, 1)
+		// v = this.getSpherical(this.p, v, 1)
+		// v = this.getSpherical(this.p, v, 1)
+		// v = this.getSpherical(this.p, v, 1)
+		// v = this.getHeart(this.p, v, 1)
+		// v = this.getHeart(this.p, v, 1)
+		// v = this.getHeart(this.p, v, 1)
+		// v = this.getHyperbolic(this.p, v, 1)
+		// v = this.getHyperbolic(this.p, v, 1)
 
 
 		const xx = map(this.p.randomGaussian(v.x, 0.009), this.x1, this.x2, this.inner.limit.x1, this.inner.limit.x2)
@@ -873,7 +869,7 @@ export class CardBackTexture2 extends Card {
 
 	repeatFoldLinearly(v, amount, max) {
 		for(let i = 0; i < max; i++) {
-			v = this.getHyperbolic(v, amount)
+			v = this.getHyperbolic(this.p, v, amount)
 		}
 
 		return v
@@ -1189,13 +1185,37 @@ export class CardBackTest2 extends Card {
 export class CardBackGlobal extends Card {
     constructor(p, opts) {
 		super(p, opts)
-    }
+
+		this.functions = [
+			this.getSinusoidal,
+			this.getHyperbolic,
+			this.getSwirl,
+			this.getSpherical,
+			this.getHorseshoe,
+			this.getPolar,
+			this.getHandkerchief,
+			this.getHeart,
+			this.getDisc,
+			this.getSpiral,
+			this.getDiamond,
+			this.getEx,
+			this.getJulia,
+			this.getJuliaLeft,
+			this.getJuliaRight,
+			this.getFisheye,
+			this.getExponential,
+			this.getPower,
+			this.getSech,
+			this.getPerspective,]
+
+		this.iteration = 0
+	}
 
 	resetStyle() {
 		this.p.smooth(8)
 		this.p.noFill()
-		this.p.stroke(40, 10)
-		this.p.strokeWeight(0.2)
+		this.p.stroke(20, 2)
+		this.p.strokeWeight(0.9)
 	}
 
 	initFold() {
@@ -1205,37 +1225,75 @@ export class CardBackGlobal extends Card {
 		this.x1 = this.y1 = -3
 		this.x2 = this.y2 = 3
 		this.y = this.y1
-		this.step = (this.x2 - this.x1) / (10 * this.inner.size.width)
+		this.step = (this.x2 - this.x1) / (2.5 * this.inner.size.width)
+	}
+
+	repeatFoldRandomly(v, range) {
+		const times = randomRange(range.min, range.max)
+
+		for(let i = 0; i < times; i++) {
+			let amount = 1
+			let which = Math.floor(randomRange(0, 3))
+
+			switch(which) {
+				// case 0:
+				// 	v = this.getHyperbolic(this.p, v, amount)
+				// case 1:
+				// 	v = this.getSinusoidal(this.p, v, amount)
+				// case 2:
+				// 	v = this.getSwirl(this.p, v, amount)
+				default:
+					v = this.getHyperbolic(this.p, v, amount)
+			}
+		}
+
+		return v
 	}
 
 	combineFolds(v) {
+		let m
 
+		for(let i = 0; i < 1; i++) {
+			const func = this.functions[Math.floor(randomRange(0, this.functions.length - 1))]
+			m = func(this.p, v, 1)
+		}
+
+		return m
 	}
 
 	drawVariation(x, y) {
 		let v = this.p.createVector(x, y)
 
-		v = this.combineFolds(v)
+		v = this.repeatFoldRandomly(v, { min: 1, max: 2 })
+
+		// v = this.addF(this.p, this.getDisc(this.p, this.p, v, 1), this.getSech(this.p, this.p, v, 1))
+
+		// v.x = (v.x - this.x1) % (this.x2-this.x1);
+		// if(v.x<0) v.x += (this.x2-this.x1);
+		// v.y = (v.y - this.y1) % (this.y2-this.y1);
+		// if(v.y<0) v.y += (this.y2-this.y1);
+		// v.x += this.x1;
+		// v.y += this.y1;
 
 		const xx = map(this.p.randomGaussian(v.x, 0.0001), this.x1, this.x2, this.inner.limit.x1, this.inner.limit.x2)
 		const yy = map(this.p.randomGaussian(v.y, 0.0001), this.y1, this.y2, this.inner.limit.y1, this.inner.limit.y2)
 
 		this.resetStyle()
 		this.p.point(xx, yy)
+		// // this.p.rect(xx, yy, 2, 2)
 	}
 
 	displayFold() {
 		if (this.go) {
 			for (let i = 0; (i < 20)&this.go; i++) {
 				for (let x = this.x1; x <= this.x2; x += this.step) {
+					this.iteration++
 					this.drawVariation(x, this.y)
 				}
 				this.y += this.step
 
 				if (this.y > this.y2) {
 					this.go = false
-
-					console.log('done')
 				}
 			}
 		}
